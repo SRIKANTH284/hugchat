@@ -4,7 +4,7 @@ from hugchat import hugchat
 from hugchat.login import Login
 
 # App title
-st.set_page_config(page_title="🤗💬 HugChat")
+st.set_page_config(page_title="🤗💬 HugCha")
 
 # Add custom CSS to set the background image
 background_image = "https://getwallpapers.com/wallpaper/full/9/b/d/940498-vertical-dark-blue-abstract-wallpaper-1920x1200-windows-10.jpg"
