@@ -6,6 +6,20 @@ from hugchat.login import Login
 # App title
 st.set_page_config(page_title="🤗💬 HugChat")
 
+# Add custom CSS to set the background image
+background_image = "https://getwallpapers.com/wallpaper/full/9/b/d/940498-vertical-dark-blue-abstract-wallpaper-1920x1200-windows-10.jpg"
+st.markdown(
+    f"""
+    <style>
+    .reportview-container {{
+        background: url('{background_image}') no-repeat center center fixed;
+        background-size: cover;
+    }}
+    </style>
+    """,
+    unsafe_allow_html=True,
+)
+
 # Hugging Face Credentials
 with st.sidebar:
     st.title('🤗💬 HugChat')
@@ -20,8 +34,7 @@ with st.sidebar:
             st.warning('Please enter your credentials!', icon='⚠️')
         else:
             st.success('Proceed to entering your prompt message!', icon='👉')
-    
-    
+
 # Store LLM generated responses
 if "messages" not in st.session_state.keys():
     st.session_state.messages = [{"role": "assistant", "content": "How may I help you?"}]
@@ -36,7 +49,7 @@ def generate_response(prompt_input, email, passwd):
     # Hugging Face Login
     sign = Login(email, passwd)
     cookies = sign.login()
-    # Create ChatBot                        
+    # Create ChatBot
     chatbot = hugchat.ChatBot(cookies=cookies.get_dict())
     return chatbot.chat(prompt_input)
 
@@ -64,10 +77,10 @@ if prompt := st.chat_input(disabled=not (hf_email and hf_pass)):
         if st.session_state.messages[-1]["role"] != "assistant":
             with st.chat_message("assistant"):
                 with st.spinner("Thinking..."):
-                    response = generate_response(prompt, hf_email, hf_pass) 
+                    response = generate_response(prompt, hf_email, hf_pass)
                     st.write(response)
                     message = {"role": "assistant", "content": response}
                     st.session_state.messages.append(message)
-                    
+
                     # Display balloons when assistant sends a response
                     st.balloons()
